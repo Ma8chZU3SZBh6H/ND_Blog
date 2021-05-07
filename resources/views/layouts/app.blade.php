@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
 <body>
-    <h1>Blog Page</h1>
+    <h1><a href="{{route('home')}}">Blog Page</a></h1>
     @guest
         <a href="{{route('login')}}">Login</a>
         <a href="{{route('register')}}">Register</a>
