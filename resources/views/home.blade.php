@@ -38,24 +38,29 @@
     @endguest
     <hr>
     <h2>Latests posts</h2>
-    @foreach ($posts as $post)
-        <div>
-            <h3>{{$post->title}}
-            @auth
-                @if ($post->user_id == Auth()->User()->id)
-                    <form action="{{route('post.delete', $post)}}" method="post">
-                        @csrf
-                        @method("DELETE")
-                        <input type="submit" value="delete">
-                    </form>
-                @endif
-            @endauth
-            </h3>
-            <img height="256px" src="{{Storage::url($post->image)}}" alt="">
-            <p>{{$post->description}}</p>
-            <small>By <strong>{{$post->user()->name}}</strong></small>
-        </div>
-        <hr>
-    @endforeach
+    @if (count($posts) > 0)
+        @foreach ($posts as $post)
+            <div>
+                <h3>{{$post->title}}
+                @auth
+                    @if ($post->user_id == Auth()->User()->id)
+                        <form action="{{route('post.delete', $post)}}" method="post">
+                            @csrf
+                            @method("DELETE")
+                            <input type="submit" value="delete">
+                        </form>
+                    @endif
+                @endauth
+                </h3>
+                <img height="256px" src="{{Storage::url($post->image)}}" alt="">
+                <p>{{$post->description}}</p>
+                <small>By <strong>{{$post->user()->name}}</strong></small>
+            </div>
+            <hr>
+        @endforeach
+    @else
+        <p>-No posts found!</p>
+    @endif
+    
     {{ $posts->appends(Request::all())->links() }}
 @endsection
