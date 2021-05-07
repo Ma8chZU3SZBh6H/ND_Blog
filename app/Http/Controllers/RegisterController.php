@@ -25,13 +25,18 @@ class RegisterController extends Controller
             'password' => ['required', 'confirmed']
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-
-        Auth::attempt($request->only("email", "password"), $request->remember);
-        return redirect()->route('home');
+        if (User::where('email', '=', $request->email)->first()) {
+            return back()->withErrors(['status' => 'There is already an account with that email']);
+        }
+        else{
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+    
+            Auth::attempt($request->only("email", "password"), $request->remember);
+            return redirect()->route('home');
+        }
     }
 }

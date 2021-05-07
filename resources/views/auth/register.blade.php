@@ -2,6 +2,9 @@
 
 @section("main")
     <h1>Register</h1>
+    @error("status")
+    <p><strong>{{$message}}</strong></p>
+    @enderror
     <form action="{{route('register')}}" method="post">
         @csrf
         <label for="name">Name:</label>
